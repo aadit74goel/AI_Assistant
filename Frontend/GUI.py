@@ -160,7 +160,7 @@ class ChatSection(QWidget):
                 }
             """)
 
- def loadMessages(self):
+    def loadMessages(self):
         
         global old_chat_message
 
@@ -184,3 +184,35 @@ class ChatSection(QWidget):
         with open(TempDirectoryPath("Status.data"), "r", encoding="utf-8") as file:
             messages = file.read()
             self.label.setText(messages)
+
+    def load_icon(self, path, width=60, height=60):
+        pixmap = QPixmap(path)
+        new_pixmap = pixmap.scaled(width, height)
+        self.icon_label.setPixmap(new_pixmap)
+
+    def toggle_icon(self, event=None):
+
+        if self.toggled:
+            self.load_icon(GraphicsDictonaryPath("voice.png"), 60, 60)
+            MicButtonInitialed()
+        
+        else:
+            self.load_icon(GraphicsDictonaryPath("mic.png"), 60, 60)
+            MicButtonClosed()
+
+        self.toggled = not self.toggled
+
+    def addMessage(self, message, color):
+        cursor = self.chat_text_edit.textCursor()
+        format = QTextCharFormat()
+        formatm = QTextBlockFormat()
+        formatm.setTopMargin(10)
+        formatm.setLeftMargin(10)
+        format.setForeground(QColor(color))
+        cursor.setCharFormat(format)
+        cursor.setBlockFormat(formatm)
+        cursor.insertText(message + "\n")
+        self.chat_text_edit.setTextCursor(cursor)
+
+
+
