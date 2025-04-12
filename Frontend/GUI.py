@@ -401,3 +401,33 @@ class CustomTopBar(QWidget):
             layout.addWidget(intial_screen)
         self.current_screen = intial_screen
         
+class MainWindow(QMainWindow):
+    
+    def __init__(self):
+        super().__init__()
+        self.setWindowFlags(Qt.FramelessWindowHint)
+        self.initUI()
+
+    def initUI(self):
+        desktop = QApplication.desktop()
+        screeen_width = desktop.screenGeometry().width()
+        screen_height = desktop.screenGeometry().height()
+        stacked_widget = QStackedWidget(self)
+        initial_screen = InitialScreen()
+        message_screen = MessageScreen()
+        stacked_widget.addWidget(initial_screen)
+        stacked_widget.addWidget(message_screen)
+        self.setGeometry(0, 0, screeen_width, screen_height)
+        self.setStyleSheet("background-color: black;")
+        top_bar = CustomTopBar(self, stacked_widget)
+        self.setMenuWidget(top_bar)
+        self.setCentralWidget(stacked_widget)
+
+def GraphicalUserInterface():
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    GraphicalUserInterface()
