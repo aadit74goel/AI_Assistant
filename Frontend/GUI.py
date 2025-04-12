@@ -254,5 +254,27 @@ class InitialScreen(QWidget):
         self.timer.timeout.connect(self.SpeechRecogText)
         self.timer.start(5)
 
+    def SpeechRecogText(self):
+        with open(TempDirectoryPath("Status.data"), "r", encoding="utf-8") as file:
+            messages = file.read()
+            self.label.setText(messages)
+
+    def load_icon(self, path, width=60, height=60):
+        pixmap = QPixmap(path)
+        new_pixmap = pixmap.scaled(width, height)
+        self.icon_label.setPixmap(new_pixmap)
+
+    def toggle_icon(self, event=None):
+        
+        if self.toggled:
+            self.load_icon(GraphicsDictonaryPath("Mic_on.png"), 60, 60)
+            MicButtonInitialed()
+        
+        else:
+            self.load_icon(GraphicsDictonaryPath("Mic_off.png"), 60, 60)
+            MicButtonClosed()
+
+        self.toggled = not self.toggled
+
 
 
