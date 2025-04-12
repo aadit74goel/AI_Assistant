@@ -276,5 +276,80 @@ class InitialScreen(QWidget):
 
         self.toggled = not self.toggled
 
+class MessageScreen(QWidget):
 
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        desktop = QApplication.desktop()
+        screen_width = desktop.screenGeometry().width()
+        screen_height = desktop.screenGeometry().height()
+        layout = QVBoxLayout()
+        label = QLabel("")
+        layout.addWidget(label)
+        chat_section = ChatSection()
+        layout.addWidget(chat_section)
+        self.setLayout(layout)
+        self.setStyleSheet("background-color: black;")
+        self.setFixedHeight(screen_height)
+        self.setFixedWidth(screen_width)
+
+class CustomTopBar(QWidget):
+
+    def __init__(self, parent, stack_widget):
+        super().__init__(parent)
+        self.initUI()
+        self.current_screen = None
+        self.stack_widget = stack_widget
+
+    def initUI(self):
+        self.setFixedHeight(50)
+        layout = QHBoxLayout(self)
+        layout.setAlignment(Qt.AlignRight)
+        home_button = QPushButton()
+        home_icon = QIcon(GraphicsDictonaryPath("Home.png"))
+        home_button.setIcon(home_icon)
+        home_button.setText("  Home")
+        home_button.setStyleSheet("height:40px; line-height:40px ; background-color:white ; color: black")
+        message_button = QPushButton()
+        message_icon = QIcon(GraphicsDictonaryPath("Chats.png"))
+        message_button.setIcon(message_icon)
+        message_button.setText("  Chat")
+        message_button.setStyleSheet("height:40px; line-height:40px; background-color:white ; color: black")
+        minimize_button = QPushButton()
+        minimize_icon = QIcon(GraphicsDictonaryPath("Minimize2.png"))
+        minimize_button.setIcon(minimize_icon)
+        minimize_button.setStyleSheet("background-color:white")
+        minimize_button.clicked.connect(self.minimizeWindow)
+        self.maximize_button = QPushButton()
+        self.maximize_icon = QIcon(GraphicsDictonaryPath("Maximize.png"))
+        self.restore_icon = QIcon(GraphicsDictonaryPath("Minimize.png"))
+        self.maximize_button.setIcon(self.maximize_icon)
+        self.maximize_button.setFlat(True)
+        self.maximize_button.setStyleSheet("background-color:white")
+        self.maximize_button.clicked.connect(self.maximizeWindow)
+        close_button = QPushButton()
+        close_icon = QIcon(GraphicsDictonaryPath("Close.png"))
+        close_button.setIcon(close_icon)
+        close_button.setStyleSheet("background-color:white")
+        close_button.clicked.connect(self.close_window)
+        line_frame = QFrame()
+        line_frame.setFixedHeight(1)
+        line_frame.setFrameShape(QFrame.HLine)
+        line_frame.setFrameShadow(QFrame.Sunken)
+        line_frame.setStyleSheet("border-color: black;")
+        title_label = QLabel(f" {str(Assistantname).capitalize()}  AI  ")
+        title_label.setStyleSheet("color: black; font-size: 18px;; background-color: white")
+        home_button.clicked.connect(lambda: self.stack_widget.setCurrentIndex(0))
+        message_button.clicked.connect(lambda: self.stack_widget.setCurrentIndex(1))
+        layout.addWidget(title_label)
+        layout.addStretch(1)
+        layout.addWidget(home_button)
+        layout.addWidget(message_button)
+        layout.addStretch(1)
+        layout.addWidget(minimize_button)
+        layout.addWidget(self.maximize_button)
+        layout.addWidget(close_button)
+        layout.addWidget(line_frame)
+        self.draggable = True
+        self.offset = None
 
