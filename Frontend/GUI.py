@@ -352,4 +352,52 @@ class CustomTopBar(QWidget):
         layout.addWidget(line_frame)
         self.draggable = True
         self.offset = None
+    
+     def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.fillRect(self.rect(), Qt.white)
+        super().paintEvent(event)
 
+    def minimizeWindow(self):
+        self.parent().showMinimized()
+
+    def maximizeWindow(self):
+        if self.parent().isMaximized():
+            self.parent().showNormal()
+            self.maximize_button.setIcon(self.maximize_icon)
+        else:
+            self.parent().showMaximized()
+            self.maximize_button.setIcon(self.restore_icon)
+
+    def close_window(self):
+        self.parent().close()
+
+    def mousePressEvent(self, event):
+        if self.draggable:
+            self.offset = event.pos()
+
+    def mouseMoveEvent(self, event):
+        if self.draggable and self.offset:
+            new_pos = event.globalPos() - self.offset
+            self.parent().move(new_pos)
+
+    def showMessageScreen(self):
+        if self.current_screen is not None:
+            self.current_screen.hide()
+
+        message_screen = MessageScreen(self)
+        layout = self.parent().layout()
+        if layout is not None:
+            layout.addWidget(message_screen)
+        self.current_screen = message_screen
+
+    def showInitialScreen(self):
+        if self.current_screen is not None:
+            self.current_screen.hide()
+
+        intial_screen = InitialScreen(self)
+        layout = self.parent().layout()
+        if layout is not None:
+            layout.addWidget(intial_screen)
+        self.current_screen = intial_screen
+        
