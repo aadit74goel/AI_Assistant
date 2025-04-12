@@ -214,5 +214,45 @@ class ChatSection(QWidget):
         cursor.insertText(message + "\n")
         self.chat_text_edit.setTextCursor(cursor)
 
+class InitialScreen(QWidget):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        desktop = QApplication.desktop()
+        screen_width = desktop.screenGeometry().width()
+        screen_height = desktop.screenGeometry().height()
+        content_layout = QVBoxLayout()
+        content_layout.setContentsMargins(0, 0, 0, 0)
+        gif_label = QLabel()
+        movie = QMovie(GraphicsDictonaryPath("Jarvis.gif"))
+        gif_label.setMovie(movie)
+        max_gif_size_H = int(screen_width / 16 * 9)
+        movie.setScaledSize(QSize(screen_width, max_gif_size_H))
+        gif_label.setAlignment(Qt.AlignCenter)
+        movie.start()
+        gif_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.icon_label = QLabel()
+        pixmap = QPixmap(GraphicsDictonaryPath("Mic_on.png"))
+        new_pixmap = pixmap.scaled(60, 60)
+        self.icon_label.setPixmap(new_pixmap)
+        self.icon_label.setFixedSize(150, 150)
+        self.icon_label.setAlignment(Qt.AlignCenter)
+        self.toggled = True
+        self.toggle_icon()
+        self.icon_label.mousePressEvent = self.toggle_icon
+        self.label = QLabel("")
+        self.label.setStyleSheet("color: white; font-size: 16px; margin-bottom: 0;")
+        content_layout.addWidget(gif_label, alignment=Qt.AlignCenter)
+        content_layout.addWidget(self.label, alignment=Qt.AlignCenter)
+        content_layout.addWidget(self.icon_label, alignment=Qt.AlignCenter)
+        content_layout.setContentsMargins(0, 0, 0, 150)
+        self.setLayout(content_layout)
+        self.setFixedHeight(screen_height)
+        self.setFixedWidth(screen_width)
+        self.setStyleSheet("background-color: black;")
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.SpeechRecogText)
+        self.timer.start(5)
+
 
 
