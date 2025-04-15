@@ -26,9 +26,9 @@ def open_images(prompt):
 
 
 # API details for the Hugging Face Text-to-Image model
-API_URL = "https://api-inference.huggingface.co/models/ZB-Tech/Text-to-Image"
+# API_URL = "https://api-inference.huggingface.co/models/ZB-Tech/Text-to-Image"
 env_vars = dotenv_values(".env")
-HuggingFaceAPIKey = env_vars.get("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")  # Retrieve the API key
+# HuggingFaceAPIKey = env_vars.get("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")  # Retrieve the API key
 headers = {"Authorization": f"Bearer {HuggingFaceAPIKey}"}
 
 
