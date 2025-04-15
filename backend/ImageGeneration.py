@@ -29,12 +29,12 @@ def open_images(prompt):
 
 env_vars = dotenv_values(".env")
 
-headers = {"Authorization": f"Bearer {HuggingFaceAPIKey}"}
+# headers = {"Authorization": f"Bearer {HuggingFaceAPIKey}"}
 
 
 # Async function to send a query to the Hugging Face API
 async def query(payload):
-    response = await asyncio.to_thread(requests.post, API_URL, headers=headers, json=payload)
+    # response = await asyncio.to_thread(requests.post, API_URL, headers=headers, json=payload)
     return response.content
 
 
