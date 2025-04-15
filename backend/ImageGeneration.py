@@ -26,15 +26,15 @@ def open_images(prompt):
 
 
 # API details for the Hugging Face Text-to-Image model
-
+API_URL = "https://api-inference.huggingface.co/models/ZB-Tech/Text-to-Image"
 env_vars = dotenv_values(".env")
-
-# headers = {"Authorization": f"Bearer {HuggingFaceAPIKey}"}
+HuggingFaceAPIKey = env_vars.get("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")  # Retrieve the API key
+headers = {"Authorization": f"Bearer {HuggingFaceAPIKey}"}
 
 
 # Async function to send a query to the Hugging Face API
 async def query(payload):
-    # response = await asyncio.to_thread(requests.post, API_URL, headers=headers, json=payload)
+    response = await asyncio.to_thread(requests.post, API_URL, headers=headers, json=payload)
     return response.content
 
 
