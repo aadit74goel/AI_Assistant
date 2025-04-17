@@ -24,3 +24,13 @@ import sys
 import threading
 import json
 import os
+
+env_vars = dotenv_values(".env")
+Username = env_vars.get("Username")
+Assistantname = env_vars.get("Assistantname")
+DefaultMessage = f'''{Username} : Hello {Assistantname}! How are you?
+{Assistantname} : Hello {Username} I'm doing well, how can I help you today?
+'''
+subprocesses = []
+Functions = ["open", "close", "play", "system", "content", "google search", "youtube search"]
+
