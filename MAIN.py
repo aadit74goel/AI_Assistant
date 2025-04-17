@@ -63,3 +63,25 @@ def ChatLogIntegration():
 
     with open(TempDictonaryPath("Database.data"), "w", encoding="utf-8") as file:
         file.write(AnswerModifier(formatted_chatlog))
+
+
+def ShowChatsOnGUI():
+    File = open(TempDictonaryPath("Database.data"), "r", encoding="utf-8")
+    Data = File.read()
+
+    if len(str(Data)) > 0:
+        lines = Data.split("\n")
+        result = '\n'.join(lines)
+        File.close()
+        File = open(TempDictonaryPath("Responses.data"), "w", encoding="utf-8")
+        File.write(result)
+        File.close()
+
+def InitialExecution():
+    SetMicrophoneStatus("False")
+    ShowTextToScreen("")
+    ShowDefaultChatIfNoChats()
+    ChatLogIntegration()
+    ShowChatsOnGUI()
+
+
