@@ -84,4 +84,25 @@ def InitialExecution():
     ChatLogIntegration()
     ShowChatsOnGUI()
 
+def MainExecution():
+    TaskExecution = False
+    ImageExecution = False
+    ImageGenerationQuery = ""
+
+    SetAssistantStatus("Listining...")
+    Query = SpeechRecognition()
+    ShowTextToScreen(f"{Username} : {Query}")
+    SetAssistantStatus("Thinking...")
+    Decision = FirstLayerDMM(Query)
+
+    print("")
+    print(f"Decision: {Decision}")
+    print("")
+
+    G = any([i for i in Decision if i.startswith("general")])
+    R = any([i for i in Decision if i.startswith("realtime")])
+
+    Merged_query = " and ".join(
+        [" ".join(i.split()[1:]) for i in Decision if i.startswith("general") or i.startswith("realtime")]
+    )
 
