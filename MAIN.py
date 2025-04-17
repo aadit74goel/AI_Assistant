@@ -117,3 +117,18 @@ def MainExecution():
                 run(Automation(list(Decision)))
                 TaskExecution = True
 
+
+    if ImageExecution == True:
+        with open(r"Frontend\Files\ImageGeneration.data", "w") as file:
+            file.write(f"{ImageGenerationQuery},True")
+
+        try:
+            subprocess.run(
+                [sys.executable, r"Backend/ImageGeneration.py"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True  # This will decode the output to a string
+            )
+        except Exception as e:
+            print(f"Error Generating Image: {e}")
+
