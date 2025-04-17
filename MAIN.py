@@ -34,3 +34,32 @@ DefaultMessage = f'''{Username} : Hello {Assistantname}! How are you?
 subprocesses = []
 Functions = ["open", "close", "play", "system", "content", "google search", "youtube search"]
 
+def ShowDefaultChatIfNoChats():
+    File = open(r"Data\ChatLog.json", "r", encoding="utf-8")
+    if len(File.read()) < 5:
+        with open(TempDictonaryPath("Database.data"), "w", encoding="utf-8") as file:
+            file.write("")
+
+        with open(TempDictonaryPath("Responses.data"), "w", encoding="utf-8") as file:
+            file.write(DefaultMessage)
+
+def ReadChatLogJson():
+    with open(r"Data\ChatLog.json", "r", encoding="utf-8") as file:
+        chatlog_data = json.load(file)
+    return chatlog_data
+
+def ChatLogIntegration():
+    json_data = ReadChatLogJson()
+    formatted_chatlog = ""
+
+    for entry in json_data:
+        if entry["role"] == "user":
+            formatted_chatlog += f"User: {entry['content']}\n"
+        elif entry["role"] == "assistant":
+            formatted_chatlog += f"Assistant: {entry['content']}\n"
+
+    formatted_chatlog = formatted_chatlog.replace("User", Username + " ")
+    formatted_chatlog = formatted_chatlog.replace("Assistant", Assistantname + " ")
+
+    with open(TempDictonaryPath("Database.data"), "w", encoding="utf-8") as file:
+        file.write(AnswerModifier(formatted_chatlog))
