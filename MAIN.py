@@ -132,3 +132,22 @@ def MainExecution():
         except Exception as e:
             print(f"Error Generating Image: {e}")
 
+    if G and R or R:
+        SetAssistantStatus("Searching...")
+        Answer = RealtimeSearchEngine(QueryModifier(Merged_query))
+        ShowTextToScreen(f"{Assistantname} : {Answer}")
+        SetAssistantStatus("Answering...")
+        TextToSpeech(Answer)
+        return True
+    
+    else:
+        for Queries in Decision:
+            if "general " in Queries:
+                SetAssistantStatus("Thinking...")
+                QueryFinal = Queries.replace("general ", "")
+                Answer = ChatBot(QueryModifier(QueryFinal))
+                ShowTextToScreen(f"{Assistantname} : {Answer}")
+                SetAssistantStatus("Answering...")
+                TextToSpeech(Answer)
+                return True
+
