@@ -151,3 +151,13 @@ def MainExecution():
                 TextToSpeech(Answer)
                 return True
 
+            elif "realtime" in Queries:
+                SetAssistantStatus("Thinking...")
+                QueryFinal = Queries.replace("realtime ", "")
+                Answer = RealtimeSearchEngine(QueryModifier(QueryFinal))
+                ShowTextToScreen(f"{Assistantname} : {Answer}")
+                SetAssistantStatus("Answering...")
+                TextToSpeech(Answer)
+                return True
+
+
