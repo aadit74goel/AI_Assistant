@@ -106,3 +106,14 @@ def MainExecution():
         [" ".join(i.split()[1:]) for i in Decision if i.startswith("general") or i.startswith("realtime")]
     )
 
+    for queries in Decision:
+        if "generate " in queries:
+            ImageGenerationQuery = str(queries)
+            ImageExecution = True
+        
+    for queries in Decision:
+        if TaskExecution == False:
+            if any(queries.startswith(func) for func in Functions):
+                run(Automation(list(Decision)))
+                TaskExecution = True
+
