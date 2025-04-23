@@ -52,3 +52,23 @@ def Content(Topic):
             stream=True,
             stop=None
         )
+
+        Answer = ""
+
+        for chunk in completion:
+            if chunk.choices[0].delta.content:
+                Answer += chunk.choices[0].delta.content
+
+        Answer = Answer.replace("</s>", "")
+        messages.append({"role": "assistant", "content": f"{Answer}"})
+        return Answer
+    
+    Topic: str = Topic.replace("Content ", "")
+    ContentByAI = ContentWriterAI(Topic)
+
+    with open(rf"Data\{Topic.lower().replace(' ', '')}.txt", "w", encoding="utf-8") as file:
+        file.write(ContentByAI)
+        file.close()
+
+    OpenNotepad(rf"Data\{Topic.lower().replace(' ', '')}.txt")
+    return True
