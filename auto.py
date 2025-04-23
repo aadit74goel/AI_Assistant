@@ -124,3 +124,27 @@ def CloseApp(app):
         
         except:
             return False
+
+def System(command):
+    def mute():
+        keyboard.press_and_release("volume mute")
+
+    def unmute():
+        keyboard.press_and_release("volume mute")
+
+    def volume_up():
+        keyboard.press_and_release("volume up")
+
+    def volume_down():
+        keyboard.press_and_release("volume down")
+
+    if command == "mute":
+        mute()
+    elif command == "unmute":
+        unmute()
+    elif command == "volume up":
+        volume_up()
+    elif command == "volume down":
+        volume_down()
+    
+    return True
