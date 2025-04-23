@@ -148,3 +148,26 @@ def System(command):
         volume_down()
     
     return True
+
+async def TranslateAndExecute(commands: list[str]):
+    funcs = []
+
+    for command in commands:
+        if command.startswith("open "):
+            if "open it" in command:
+                pass
+            if "open file" == command:
+                pass
+            else:
+                fun = asyncio.to_thread(OpenApp, command.removeprefix("open "))
+                funcs.append(fun)
+        
+        elif command.startswith("general "):
+            pass
+
+        elif command.startswith("realtime "):
+            pass
+
+        elif command.startswith("close "):  
+            fun = asyncio.to_thread(CloseApp, command.removeprefix("close "))
+            funcs.append(fun)
