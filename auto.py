@@ -34,3 +34,21 @@ SystemChatBot = [{"role": "system", "content": f"Hello, I am {os.environ['Userna
 def GoogleSearch(Topic):
     search(Topic)
     return True
+
+def Content(Topic):
+    def OpenNotepad(File):
+        default_text_editor = "notepad.exe"
+        subprocess.Popen([default_text_editor, File])
+
+    def ContentWriterAI(prompt):
+        messages.append({"role": "user", "content": f"{prompt}"})
+
+        completion = client.chat.completions.create(
+            model="mixtral-8x7b-32768",
+            messages=SystemChatBot + messages,
+            max_tokens=2048,
+            temperature=0.7,
+            top_p=1,
+            stream=True,
+            stop=None
+        )
