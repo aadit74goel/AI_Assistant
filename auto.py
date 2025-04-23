@@ -171,3 +171,39 @@ async def TranslateAndExecute(commands: list[str]):
         elif command.startswith("close "):  
             fun = asyncio.to_thread(CloseApp, command.removeprefix("close "))
             funcs.append(fun)
+            
+        elif command.startswith("play "):
+            fun = asyncio.to_thread(PlayYoutube, command.removeprefix("play "))
+            funcs.append(fun)
+
+        elif command.startswith("content "):
+            fun = asyncio.to_thread(Content, command.removeprefix("content "))
+            funcs.append(fun)
+
+        elif command.startswith("google search "):
+            fun = asyncio.to_thread(GoogleSearch, command.removeprefix("google search "))
+            funcs.append(fun)
+
+        elif command.startswith("youtube search "):
+            fun = asyncio.to_thread(YoutubeSearch, command.removeprefix("youtube search "))
+            funcs.append(fun)
+
+        elif command.startswith("system "):
+            fun = asyncio.to_thread(System, command.removeprefix("system "))
+            funcs.append(fun)
+
+        else:
+            print(f"No Function found for {command}")
+
+    results = await asyncio.gather(*funcs)
+
+    for result in results: 
+        if isinstance(result, str):
+            yield result
+        else:
+            yield result
+
+async def Automation(commands: list[str]):
+    async for result in TranslateAndExecute(commands):
+        pass
+    return True
