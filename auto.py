@@ -72,3 +72,26 @@ def Content(Topic):
 
     OpenNotepad(rf"Data\{Topic.lower().replace(' ', '')}.txt")
     return True
+
+def YoutubeSearch(Topic):
+    Url4Search = f"https://www.youtube.com/results?search_query={Topic}"
+    webbrowser.open(Url4Search)
+    return True
+
+def PlayYoutube(query):
+    playonyt(query)
+    return True
+
+def OpenApp(app, sess=requests.session()):
+    try:
+        appopen(app, match_closest=True, output=True, throw_error=True)
+        return True
+    
+    except:
+        def extract_links(html):
+            if html is None:
+                return []
+
+            soup = BeautifulSoup(html, "html.parser")
+            links = soup.find_all("a",{"jsname": "UWckNb"})
+            return [link.get("href") for link in links]
