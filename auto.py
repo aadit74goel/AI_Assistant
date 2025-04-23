@@ -95,3 +95,32 @@ def OpenApp(app, sess=requests.session()):
             soup = BeautifulSoup(html, "html.parser")
             links = soup.find_all("a",{"jsname": "UWckNb"})
             return [link.get("href") for link in links]
+        
+        def search_google(query):
+            url = f"https://www.google.com/search?q={query}"
+            headers = {"User-Agent": useragent}
+            response = sess.get(url, headers=headers)
+            
+            if response.status_code == 200:
+                return response.text
+            else:
+                print("Failed to retrieve Google search results.")
+            return None
+        
+        html = search_google(app)
+
+        if html:
+            link = extract_links(html)[0]
+            webopen(link)
+        return True
+
+def CloseApp(app):
+    if "chrome" in app:
+        pass
+    else:
+        try:
+            close(app, match_closest=True, output=True, throw_error=True)
+            return True
+        
+        except:
+            return False
